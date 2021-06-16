@@ -1,0 +1,20 @@
+.AppBar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  min-height: 80px;
+  margin-bottom: 45px;
+  padding-left: 30px;
+  padding-right: 30px;
+  color: #59719c;
+  border-bottom: 1px solid #ccc;
+  box-shadow: 0 7px 10px 0 rgba(0, 0, 0, 0.2);
+}
+
+/* .AppBar a {
+  margin-right: 15px;
+  font-size: 18px;
+  font-weight: 600;
+  text-decoration: none;
+  color: #59719c;
+} */

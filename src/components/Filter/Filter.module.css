@@ -1,0 +1,21 @@
+.filterSection {
+  display: flex;
+  align-items: center;
+  max-width: 300px;
+  margin: 0 auto;
+  font-size: 19px;
+  font-weight: 600;
+  color: #59719c;
+}
+
+.filterInput {
+  display: block;
+  margin-top: 5px;
+  padding: 3px 8px;
+  width: 285px;
+  height: 30px;
+  font-size: 17px;
+  color: #445169;
+  border: 1px solid #4f6080;
+  border-radius: 6px;
+}
