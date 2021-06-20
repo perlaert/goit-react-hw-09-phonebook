@@ -1,6 +1,15 @@
 .userMenu {
   display: flex;
   align-items: center;
+  /* flex-wrap: wrap; */
+  padding: 7px 0;
+}
+
+.persInfo {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  justify-content: center;
 }
 
 .avatar {
@@ -9,20 +18,23 @@
 
 .email {
   font-size: 18px;
-  margin-right: 20px;
+  margin-right: 8px;
 }
 
 .btn {
-  font-size: 18px;
-  font-weight: 600;
-  width: 100px;
-  height: 31px;
+  display: flex;
+  align-items: center;
+  /* font-size: 18px;
+  font-weight: 600; */
+  max-width: 125px;
+  min-height: 31px;
   margin: auto;
+  padding: 6px 7px;
   color: #4f6080;
   background-color: #dce6f7;
   border-radius: 10px;
   border: 1px solid #dce6f7;
-  box-shadow: -5px -5px 5px -5px rgb(34 60 80 / 60%) inset;
+  box-shadow: inset -5px -5px 5px -5px rgb(34 60 80 / 60%);
   cursor: pointer;
   transition: background-color, color 0.4s;
 }

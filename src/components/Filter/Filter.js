@@ -1,10 +1,20 @@
-import { connect } from 'react-redux';
+import { useCallback } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import * as contactsActions from '../../redux/contacts/contacts-actions';
 import contactsSelectors from '../../redux/contacts/contacts-selectors';
 import PropTypes from 'prop-types';
 import style from './Filter.module.css';
 
-const Filter = ({ value = ' ', onChange }) => {
+export default function Filter() {
+  const dispatch = useDispatch();
+
+  const onChange = useCallback(
+    event => dispatch(contactsActions.changeFilter(event.target.value)),
+    [dispatch],
+  );
+
+  const value = useSelector(contactsSelectors.getFilter);
+
   return (
     <div className={style.filterSection}>
       <label>
@@ -18,20 +28,9 @@ const Filter = ({ value = ' ', onChange }) => {
       </label>
     </div>
   );
-};
+}
 
 Filter.propTypes = {
   value: PropTypes.string,
-  onChange: PropTypes.func.isRequired,
+  onChange: PropTypes.func,
 };
-
-const mapStateToProps = state => ({
-  value: contactsSelectors.getFilter(state),
-});
-
-const mapDispatchToProps = dispatch => ({
-  onChange: event =>
-    dispatch(contactsActions.changeFilter(event.currentTarget.value)),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(Filter);

@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
+import React, { useState, useCallback } from 'react';
+import { useDispatch } from 'react-redux';
 import routes from '../../routes';
 import authOperations from '../../redux/auth/auth-operations';
 import PropTypes from 'prop-types';
@@ -16,73 +16,78 @@ const s = {
   },
 };
 
-class LoginPage extends Component {
-  static propsTypes = {
-    onSubmit: PropTypes.func.isRequired,
-  };
+export default function LoginPage() {
+  const dispatch = useDispatch();
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
-  state = {
-    email: '',
-    password: '',
-  };
+  const handleChange = useCallback(event => {
+    const { name, value } = event.currentTarget;
 
-  handleChange = ({ currentTarget: { name, value } }) => {
-    this.setState({
-      [name]: value,
-    });
-  };
+    switch (name) {
+      case 'email':
+        setEmail(value);
+        break;
 
-  handleSubmit = event => {
-    event.preventDefault();
+      case 'password':
+        setPassword(value);
+        break;
 
-    this.props.onSignIn(this.state);
+      default:
+        console.warn(`Тип ${name} не обрабатывается`);
+    }
+  }, []);
 
-    this.setState({ email: '', password: '' });
-  };
+  const handleSubmit = useCallback(
+    event => {
+      event.preventDefault();
 
-  render() {
-    const { email, password } = this.state;
-    return (
-      <section>
-        <h1>Sign in to Phonebook App</h1>
-        <form className={style.contactForm} onSubmit={this.handleSubmit}>
-          <label className={style.labelItem}>
-            Email
-            <input
-              type="email"
-              name="email"
-              value={email}
-              onChange={this.handleChange}
-              required
-            />
-          </label>
-          <label className={style.labelItem}>
-            Password
-            <input
-              type="password"
-              name="password"
-              value={password}
-              onChange={this.handleChange}
-              required
-            />
-          </label>
-          <button type="submit" className={style.btn}>
-            Sign in{' '}
-          </button>
-        </form>
-        <p style={style.signIn_callout}>
-          Don't have an account to Phonebook App?{' '}
-          <a href={routes.register} style={s.link}>
-            Create an account.
-          </a>
-        </p>
-      </section>
-    );
-  }
+      dispatch(authOperations.signIn({ email, password }));
+
+      setEmail('');
+      setPassword('');
+    },
+    [dispatch, email, password],
+  );
+
+  return (
+    <section>
+      <h1>Sign in to Phonebook App</h1>
+      <form className={style.contactForm} onSubmit={handleSubmit}>
+        <label className={style.labelItem}>
+          Email
+          <input
+            type="email"
+            name="email"
+            value={email}
+            onChange={handleChange}
+            required
+          />
+        </label>
+        <label className={style.labelItem}>
+          Password
+          <input
+            type="password"
+            name="password"
+            value={password}
+            onChange={handleChange}
+            required
+          />
+        </label>
+        <button type="submit" className={style.btn}>
+          Sign in{' '}
+        </button>
+      </form>
+      <p style={style.signIn_callout}>
+        Don't have an account to Phonebook App?{' '}
+        <a href={routes.register} style={s.link}>
+          Create an account.
+        </a>
+      </p>
+    </section>
+  );
 }
 
-const mapDispatchToProps = {
-  onSignIn: authOperations.signIn,
+LoginPage.propsTypes = {
+  onSubmit: PropTypes.func.isRequired,
 };
-
-export default connect(null, mapDispatchToProps)(LoginPage);

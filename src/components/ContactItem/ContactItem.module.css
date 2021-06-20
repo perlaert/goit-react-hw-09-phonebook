@@ -1,0 +1,36 @@
+.contactInfo p {
+  text-align: start;
+  margin: 7px 0;
+}
+
+.contactName {
+  margin-bottom: 7px;
+}
+
+.contactList p {
+  text-align: center;
+  margin: 0;
+  font-size: 19px;
+  font-weight: 600;
+  color: #59719c;
+}
+
+.btn {
+  font-size: 14px;
+  font-weight: 600;
+  width: 75px;
+  height: 27px;
+  margin: auto 0;
+  color: #4f6080;
+  background-color: #dce6f7;
+  border-radius: 10px;
+  border: 1px solid #dce6f7;
+  box-shadow: -5px -5px 5px -5px rgb(34 60 80 / 60%) inset;
+  cursor: pointer;
+  transition: background-color, color 0.4s;
+}
+
+.btn:hover {
+  background-color: #dba89a;
+  color: #fff;
+}

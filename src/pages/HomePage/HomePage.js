@@ -1,4 +1,4 @@
-import { connect } from 'react-redux';
+import { useSelector } from 'react-redux';
 import routes from '../../routes';
 import authSelectors from '../../redux/auth/auth-selectors';
 
@@ -8,7 +8,9 @@ const styles = {
   },
 };
 
-const HomePage = ({ isAuthenticated }) => {
+export default function HomePage() {
+  const isAuthenticated = useSelector(authSelectors.getIsAuthenticated);
+
   return (
     <>
       <h1>
@@ -36,10 +38,4 @@ const HomePage = ({ isAuthenticated }) => {
       )}
     </>
   );
-};
-
-const mapStateToProps = state => ({
-  isAuthenticated: authSelectors.getIsAuthenticated(state),
-});
-
-export default connect(mapStateToProps)(HomePage);
+}

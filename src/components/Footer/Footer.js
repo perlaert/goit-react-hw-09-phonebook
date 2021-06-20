@@ -4,7 +4,7 @@ const Footer = () => {
   return (
     <footer className={style.Footer}>
       <span className={style.copyRight}>
-        © 2021| All Rights Reserved | Developed by
+        © 2021 | All Rights Reserved | Developed by
         <a
           href="https://github.com/perlaert"
           target="_blank"

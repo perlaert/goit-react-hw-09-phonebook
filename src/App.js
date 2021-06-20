@@ -1,12 +1,13 @@
-import React, { Component, Suspense, lazy } from 'react';
+import React, { Suspense, lazy, useEffect } from 'react';
 import { Switch } from 'react-router-dom';
-import { connect } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import routes from './routes';
 import Loader from 'react-loader-spinner';
 import Layout from './components/Layout/Layout';
 import authOperations from './redux/auth/auth-operations';
 import PrivateRoute from './components/PrivateRoute';
 import PublicRoute from './components/PublicRoute';
+// import { Home } from '@material-ui/icons';
 
 const HomePage = lazy(() =>
   import('./pages/HomePage/HomePage.js' /* webpackChunkName: "home-page" */),
@@ -25,54 +26,51 @@ const ContactsPage = lazy(() =>
   ),
 );
 
-class App extends Component {
-  componentDidMount() {
-    this.props.onRefresh();
-  }
+export default function App() {
+  const dispatch = useDispatch();
 
-  render() {
-    return (
-      <Layout>
-        <Suspense
-          fallback={
-            <Loader
-              type="BallTriangle"
-              color="#e1e2ed"
-              height={60}
-              width={60}
-              className="loader"
-            />
-          }
-        >
-          <Switch>
-            <PublicRoute exact path={routes.home} component={HomePage} />
-            <PublicRoute
-              path={routes.register}
-              restricted
-              component={RegisterPage}
-              redirectTo={routes.contacts}
-            />
-            <PublicRoute
-              path={routes.login}
-              restricted
-              component={LoginPage}
-              redirectTo={routes.contacts}
-            />
-            <PrivateRoute
-              path={routes.contacts}
-              component={ContactsPage}
-              redirectTo={routes.login}
-            />
-            <PublicRoute component={HomePage} />
-          </Switch>
-        </Suspense>
-      </Layout>
-    );
-  }
+  useEffect(() => dispatch(authOperations.getCurrentUser()), [dispatch]);
+
+  return (
+    <Layout>
+      <Suspense
+        fallback={
+          <Loader
+            type="BallTriangle"
+            color="#e1e2ed"
+            height={60}
+            width={60}
+            className="loader"
+          />
+        }
+      >
+        <Switch>
+          <PublicRoute exact path={routes.home}>
+            <HomePage />
+          </PublicRoute>
+          <PublicRoute
+            path={routes.register}
+            restricted
+            redirectTo={routes.contacts}
+          >
+            <RegisterPage />
+          </PublicRoute>
+          <PublicRoute
+            path={routes.login}
+            restricted
+            LoginPage
+            redirectTo={routes.contacts}
+          >
+            <LoginPage />
+          </PublicRoute>
+          <PrivateRoute path={routes.contacts} redirectTo={routes.login}>
+            <ContactsPage />
+          </PrivateRoute>
+          <PublicRoute>
+            <HomePage />
+          </PublicRoute>
+        </Switch>
+      </Suspense>
+    </Layout>
+  );
 }
-
-const mapDispatchToProps = {
-  onRefresh: authOperations.getCurrentUser,
-};
-
-export default connect(null, mapDispatchToProps)(App);
